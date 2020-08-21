@@ -7,20 +7,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 
 public class Config {
+
     private File file;
     private final String filename;
     private final File folder;
     private FileConfiguration config;
-    private final MSGUtils msgInstance;
     private final JavaPlugin plugin;
 
-    public Config(JavaPlugin plugin, MSGUtils msgInstance, String filename, boolean setup, boolean copyDefaults) {
-        this.msgInstance = msgInstance;
+    public Config(JavaPlugin plugin, String filename, boolean setup, boolean copyDefaults) {
         this.plugin = plugin;
         this.filename = filename;
         this.folder = plugin.getDataFolder();
@@ -30,8 +28,7 @@ public class Config {
             copyDefaults();
     }
 
-    public Config(JavaPlugin plugin, MSGUtils msgInstance, String filename, boolean setup, boolean copyDefaults, String defaultLocation) {
-        this.msgInstance = msgInstance;
+    public Config(JavaPlugin plugin, String filename, boolean setup, boolean copyDefaults, String defaultLocation) {
         this.plugin = plugin;
         this.filename = filename;
         this.folder = plugin.getDataFolder();
@@ -42,8 +39,7 @@ public class Config {
 
     }
 
-    public Config(JavaPlugin plugin, MSGUtils msgInstance, String path, String filename, boolean setup, boolean copyDefaults) {
-        this.msgInstance = msgInstance;
+    public Config(JavaPlugin plugin, String path, String filename, boolean setup, boolean copyDefaults) {
         this.plugin = plugin;
         this.filename = filename;
         this.folder = new File(plugin.getDataFolder().getAbsolutePath() + "/" + path);
@@ -53,8 +49,7 @@ public class Config {
             copyDefaults();
     }
 
-    public Config(JavaPlugin plugin, MSGUtils msgInstance, String path, String filename, boolean setup, boolean copyDefaults, String defaultLocation) {
-        this.msgInstance = msgInstance;
+    public Config(JavaPlugin plugin, String path, String filename, boolean setup, boolean copyDefaults, String defaultLocation) {
         this.plugin = plugin;
         this.filename = filename;
         this.folder = new File(plugin.getDataFolder().getAbsolutePath() + "/" + path);
@@ -76,41 +71,42 @@ public class Config {
                 //noinspection ResultOfMethodCallIgnored
                 file.createNewFile();
             } catch (IOException ignored) {
-                msgInstance.sendConsoleMessage("&cCouldn't create " + filename + "! Skipping config file!");
+                MSGUtils.sendError("Bedwars", "Could not create Config file: " + filename + "! Skipping file! Are the File-Permissions set correctly for this folder?");
             }
         }
         config = YamlConfiguration.loadConfiguration(file);
     }
 
-    // TODO: 21.08.2020 copy defaults not working right now! 
-
     public void copyDefaults() {
-        Reader defConfigStream = new InputStreamReader(plugin.getResource(filename), StandardCharsets.UTF_8);
-        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-        config.setDefaults(defConfig);
+        InputStream defaultConfigStream = plugin.getResource(filename);
+        YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultConfigStream));
+        config.setDefaults(defaultConfig);
         config.options().copyDefaults(true);
+        save();
     }
 
     public void copyDefaults(String location) {
-        Reader defConfigStream = new InputStreamReader(plugin.getResource(location), StandardCharsets.UTF_8);
-        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-        config.setDefaults(defConfig);
+        InputStream defaultConfigStream = plugin.getResource(location);
+        YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultConfigStream));
+        config.setDefaults(defaultConfig);
         config.options().copyDefaults(true);
+        save();
     }
 
     public void copyDefaults(boolean b) {
-        Reader defConfigStream = new InputStreamReader(plugin.getResource(filename), StandardCharsets.UTF_8);
-        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-        config.setDefaults(defConfig);
+        InputStream defaultConfigStream = plugin.getResource(filename);
+        YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultConfigStream));
+        config.setDefaults(defaultConfig);
         config.options().copyDefaults(b);
+        save();
     }
 
     public void copyDefaults(String location, boolean b) {
-        System.out.println(location);
-        Reader defConfigStream = new InputStreamReader(plugin.getResource(location), StandardCharsets.UTF_8);
-        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-        config.setDefaults(defConfig);
+        InputStream defaultConfigStream = plugin.getResource(location);
+        YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultConfigStream));
+        config.setDefaults(defaultConfig);
         config.options().copyDefaults(b);
+        save();
     }
 
     public FileConfiguration getConfig() {

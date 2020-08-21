@@ -44,6 +44,10 @@ public class MSGUtils {
         }
     }
 
+    public static void sendError(String pluginName, String msg) {
+        Bukkit.getConsoleSender().sendMessage("&c" + ChatColor.stripColor("[ERROR] | " + pluginName + " >>> " + msg));
+    }
+
     private void updateColor() {
         this.prefix = ChatColor.translateAlternateColorCodes('&', this.prefix);
     }
