@@ -1,0 +1,7 @@
+name: LLibrary
+main: me.fastcrafter.llibrary.bukkit.Main
+version: 1.0.0
+load: STARTUP
+authors:
+  - FastCrafter
+  - TabbyPlayz
