@@ -1,7 +1,5 @@
 package me.fastcrafter.llibrary.common.mysql;
 
-import me.fastcrafter.llibrary.bukkit.util.MSGUtils;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -31,9 +29,11 @@ public class MySQLConnection {
                 }
                 Class.forName("com.mysql.jdbc.Driver");
                 setConnection(DriverManager.getConnection("jdbc:mysql://" + login.getAddress(), login.getUser(), login.getPassword()));
+                System.out.println("Connected!");
             }
         } catch (SQLException | ClassNotFoundException e) {
-            MSGUtils.sendError("LLibrary", "Could not create Connection to MySQL Database on: " + login.getAddress() +" with user: " + login.getUser());
+            //MSGUtils.sendError("LLibrary", "Could not create Connection to MySQL Database on: " + login.getAddress() +" with user: " + login.getUser());
+            e.printStackTrace();
         }
     }
 

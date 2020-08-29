@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class Config {
 
@@ -79,7 +80,7 @@ public class Config {
 
     public void copyDefaults() {
         InputStream defaultConfigStream = plugin.getResource(filename);
-        YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultConfigStream));
+        YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(Objects.requireNonNull(defaultConfigStream)));
         config.setDefaults(defaultConfig);
         config.options().copyDefaults(true);
         save();
@@ -87,7 +88,7 @@ public class Config {
 
     public void copyDefaults(String location) {
         InputStream defaultConfigStream = plugin.getResource(location);
-        YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultConfigStream));
+        YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(Objects.requireNonNull(defaultConfigStream)));
         config.setDefaults(defaultConfig);
         config.options().copyDefaults(true);
         save();
@@ -95,7 +96,7 @@ public class Config {
 
     public void copyDefaults(boolean b) {
         InputStream defaultConfigStream = plugin.getResource(filename);
-        YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultConfigStream));
+        YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(Objects.requireNonNull(defaultConfigStream)));
         config.setDefaults(defaultConfig);
         config.options().copyDefaults(b);
         save();
@@ -103,7 +104,7 @@ public class Config {
 
     public void copyDefaults(String location, boolean b) {
         InputStream defaultConfigStream = plugin.getResource(location);
-        YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultConfigStream));
+        YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(Objects.requireNonNull(defaultConfigStream)));
         config.setDefaults(defaultConfig);
         config.options().copyDefaults(b);
         save();

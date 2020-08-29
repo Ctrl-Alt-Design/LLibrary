@@ -1,5 +1,7 @@
 package me.fastcrafter.llibrary.bukkit.util;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -10,6 +12,10 @@ public class MSGUtils {
 
     public MSGUtils(String prefix) {
         this.prefix = prefix;
+    }
+
+    public static void sendError(String pluginName, String msg) {
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&c" + ChatColor.stripColor("[ERROR] | " + pluginName + " >>> " + msg)));
     }
 
     public String getPrefix() {
@@ -23,6 +29,11 @@ public class MSGUtils {
     public void sendConsoleMessage(String msg) {
         updateColor();
         Bukkit.getConsoleSender().sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', msg));
+    }
+
+    public void sendActionBar(Player p, String text) {
+        updateColor();
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', text)));
     }
 
     public void sendPlayerMessage(Player p, String msg) {
@@ -42,10 +53,6 @@ public class MSGUtils {
         for (Player p : players) {
             p.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', msg));
         }
-    }
-
-    public static void sendError(String pluginName, String msg) {
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&c" + ChatColor.stripColor("[ERROR] | " + pluginName + " >>> " + msg)));
     }
 
     private void updateColor() {
